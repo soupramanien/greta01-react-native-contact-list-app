@@ -1,12 +1,45 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
+import { createContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Accueil from './ecrans/Accueil';
+import ContactDetails from './ecrans/ContactDetails';
+import ContactList from './ecrans/ContactList';
+import Details from './ecrans/Details';
+//création de navigateur
+const Stack = createNativeStackNavigator();
+//création d'un fournisseur de données (API Context)
+export const MessageContext = createContext("")
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MessageContext.Provider
+      value='Bonjour tout le monde'>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='contactList'>
+          <Stack.Screen
+            name='contactList'
+            component={ContactList}
+            options={{ title: 'Liste de contacts' }}
+          />
+          <Stack.Screen
+            name='contactDetails'
+            component={ContactDetails}
+            initialParams={{ id: 0, name: "Inconnu" }}
+            options={({ route }) => ({ title: route.params.name })}
+          />
+          {/* <Stack.Screen name='Details' options={{ title: "Page de détails" }}>
+            {(props) => <Details {...props} message="message de test" />}
+          </Stack.Screen>
+          <Stack.Screen
+            name='Accueil'
+            component={Accueil}
+            options={{ title: "Page d'accueil" }}
+          /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MessageContext.Provider>
   );
 }
 
