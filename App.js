@@ -1,12 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
 import { createContext } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Accueil from './ecrans/Accueil';
+import { Button, Image, StyleSheet, Text, View } from 'react-native';
 import ContactDetails from './ecrans/ContactDetails';
 import ContactList from './ecrans/ContactList';
-import Details from './ecrans/Details';
 //création de navigateur
 const Stack = createNativeStackNavigator();
 //création d'un fournisseur de données (API Context)
@@ -23,7 +20,8 @@ export default function App() {
             headerStyle: {
               backgroundColor: '#f00'
             },
-            headerTintColor: '#fff'
+            headerTintColor: '#fff',
+            headerTitleAlign: 'center'
           }}
         >
           <Stack.Screen
@@ -39,7 +37,14 @@ export default function App() {
                 fontSize: 25,
                 fontWeight: 'bold',
                 color: '#00f'
-              }
+              },
+              headerTitle: () => <Image
+                source={require('./assets/icon.png')}
+                style={{ width: 30, height: 30 }}
+              />,
+              headerRight: () => <Button title='btn-droit' onPress={() => alert('test')} color='#f00' />
+              // headerTitle: () => <Text>Liste de contacts (test)</Text>
+              // headerTitle: 'Liste de contacts'
             }}
           />
           <Stack.Screen
