@@ -17,11 +17,30 @@ export default function App() {
     <MessageContext.Provider
       value='Bonjour tout le monde'>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='contactList'>
+        <Stack.Navigator
+          initialRouteName='contactList'
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#f00'
+            },
+            headerTintColor: '#fff'
+          }}
+        >
           <Stack.Screen
             name='contactList'
             component={ContactList}
-            options={{ title: 'Liste de contacts' }}
+            options={{
+              title: 'Liste de contacts',
+              headerStyle: {
+                backgroundColor: '#DDD'
+              },
+              headerTintColor: '#f00',
+              headerTitleStyle: {
+                fontSize: 25,
+                fontWeight: 'bold',
+                color: '#00f'
+              }
+            }}
           />
           <Stack.Screen
             name='contactDetails'
