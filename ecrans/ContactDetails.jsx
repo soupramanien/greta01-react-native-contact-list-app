@@ -22,7 +22,7 @@ export default function ContactDetails(props) {
     useLayoutEffect(() => {
         props.navigation.setOptions({
             headerRight: () => <Button title="+" color='#FFF' onPress={incCompteur} />,
-            headerLeft: () => <Button title="-" color='#FFF' onPress={decCompteur} />
+            // headerLeft: () => <Button title="-" color='#FFF' onPress={decCompteur} />
         })
     }, [])
 
