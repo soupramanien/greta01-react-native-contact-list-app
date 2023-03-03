@@ -1,15 +1,27 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import ContactListItem from "../composants/ContactListItem";
 
 export default function ContactList(props) {
     const [contacts, setContacts] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const loadContacts = async () => {
+        setLoading(true)
+        const res = await fetch("https://jsonplaceholder.typicode.com/users")
+        const data = await res.json()
+        console.log(data);
+        setContacts(data)
+        setLoading(false)
+    }
     useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/users")
-            .then((res) => { return res.json() })
-            .then((data) => {
-                console.log(data);
-                setContacts(data)
-            })
+        // fetch("https://jsonplaceholder.typicode.com/users")
+        //     .then((res) => { return res.json() })
+        //     .then((data) => {
+        //         console.log(data);
+        //         setContacts(data)
+        //     })
+        loadContacts()
     }, []);
     const showContactDetails = (id, name) => {
         props.navigation.navigate('contactDetails', { id: id, name: name })
@@ -17,7 +29,27 @@ export default function ContactList(props) {
     return (
         <View style={styles.container}>
             <Text>Contact List</Text>
-            {contacts.map((contact) => {
+            <FlatList
+                data={contacts}
+                keyExtractor={(contact) => contact.id}
+                renderItem={function (params) {
+                    return (
+                        <ContactListItem
+                            contact={params.item}
+                            showContactDetails={showContactDetails} />
+                    )
+                }}
+                onRefresh={loadContacts}
+                refreshing={loading}
+            // renderItem={({ item }) => {
+            //     return (
+            //         <ContactListItem
+            //             contact={item}
+            //             showContactDetails={showContactDetails} />
+            //     )
+            // }}
+            />
+            {/* {contacts.map((contact) => {
                 return (
                     <TouchableOpacity
                         key={contact.id}
@@ -27,7 +59,7 @@ export default function ContactList(props) {
                         </View>
                     </TouchableOpacity>
                 )
-            })}
+            })} */}
         </View>
     )
 }
